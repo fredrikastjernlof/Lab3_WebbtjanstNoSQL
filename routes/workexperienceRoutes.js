@@ -1,6 +1,6 @@
 //Importerar paket
 const express = require('express');
-const client = require('../db_connection');
+const WorkExperience = require('../models/WorkExperience');
 const router = express.Router();
 
 // Validerar inkommande data (backend-skydd för databasen)
@@ -25,10 +25,10 @@ function validateWorkExperience(data) {
 // Hämtar alla poster
 router.get('/', async (req, res) => {
     try {
-        const result = await client.query('SELECT * FROM workexperience');
-        res.json(result.rows);
+        const workExperiences = await WorkExperience.find().sort({ createdAt: -1 });
+        res.json(workExperiences);
     } catch (error) {
-        res.status(500).json({ message: 'Could not fetch work experience' });
+        res.status(500).json({ message: 'Could not fetch work experiences' });
     }
 });
 
@@ -54,25 +54,23 @@ router.get('/:id', async (req, res) => {
 
 // Skapar ny post i databasen
 router.post('/', async (req, res) => {
-    
+
     // Kontrollerar om obligatoriska fält saknas eller är tomma
     if (!validateWorkExperience(req.body)) {
         return res.status(400).json({ message: 'Required fields are missing or empty' });
     }
 
-    const { companyname, jobtitle, location, startdate, enddate, description } = req.body;
-
     try {
-        const result = await client.query(
-            `INSERT INTO workexperience (companyname, jobtitle, location, startdate, enddate, description)
-             VALUES ($1, $2, $3, $4, $5, $6)
-             RETURNING *`,
-            [companyname, jobtitle, location, startdate, enddate, description]
-        );
+        const newWorkExperience = new WorkExperience(req.body);
+        const savedWorkExperience = await newWorkExperience.save();
 
-        res.status(201).json(result.rows[0]);
+        res.status(201).json(savedWorkExperience);
     } catch (error) {
-        res.status(500).json({ message: 'Could not insert work experience' });
+        console.error("POST ERROR:", error);
+        res.status(500).json({
+            message: 'Could not insert work experience',
+            error: error.message
+        });
     }
 });
 
