@@ -1,6 +1,8 @@
+// Importerar Mongoose och dotenv för att hantera databasanslutning
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+// Funktion för att ansluta till MongoDB
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI); 
