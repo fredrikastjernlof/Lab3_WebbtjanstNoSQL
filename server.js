@@ -3,11 +3,17 @@ const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
 
+//Importerar databasanslutning
+const connectDB = require('./db_connection');
+
 //Läser in routes
 const workexperienceRoutes = require("./routes/workexperienceRoutes");
 
 // Expressinstans
 const app = express();
+
+// Anslut till databasen
+connectDB();
 
 // Middlewares
 app.use(cors()); // Tillåter cross-origin
