@@ -82,9 +82,14 @@ Alla svar returneras i JSON-format.
   "description": "Bränner hjärnceller genom att sitta framför en skärm flera timmar i ett streck."
 }
 ```
+
+### Testa endpoint
+
+GET [/workexperience](https://lab3-webbtjanstnosql.onrender.com/workexperience)
+
 ---
 
-## ⚠️ Validering
+## ✅ Validering
 
 - Alla obligatoriska fält måste vara ifyllda
 - Tomma strängar accepteras inte
@@ -92,43 +97,60 @@ Alla svar returneras i JSON-format.
 
 ---
 
-## 🌐 Publicering
+## 🌍 CORS
 
-Webbtjänsten är publicerad via Render och använder MongoDB Atlas som databas.
-
-[Öppna webbtjänst]()
+Webbtjänsten stödjer Cross-Origin Requests (CORS) för att kunna användas från externa klienter.
 
 ---
 
 ## 📁 Installation (lokalt)
 
 1. Klona repositoryt
+
 ```bash
 git clone https://github.com/fredrikastjernlof/Lab3_WebbtjanstNoSQL.git
 ```
 
 2. Installera dependencies
+
 ```bash
 npm install
 ```
 
 3. Skapa en `.env`-fil:
+
 ```env
 PORT=3000
 MONGODB_URI=din_connection_string
 ```
 
-4. Starta servern
+4. Starta utvecklingsservern
 
-För utveckling (rekommenderas):
 ```bash
 npm run dev
 ```
 
-För produktion:
+eller:
+
 ```bash
 npm start
 ```
+
+---
+
+## 🌐 Publicering
+
+Webbtjänsten är publicerad via Render och använder MongoDB Atlas som databas.
+
+[Öppna webbtjänst](https://lab3-webbtjanstnosql.onrender.com)
+
+## 🔗 Extern klient
+
+Denna webbtjänst används av en frontend-applikation:
+
+[Öppna webbplatsen](https://lab3webbplats.netlify.app/)
+
+Frontend-applikationen använder denna webbtjänst via Fetch API för att hämta, skapa, uppdatera och radera data.
 
 ---
 
