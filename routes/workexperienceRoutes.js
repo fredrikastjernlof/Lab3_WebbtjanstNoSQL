@@ -37,15 +37,13 @@ router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const result = await client.query(
-            'SELECT * FROM workexperience WHERE id = $1', [id]
-        );
+        const workExperience = await WorkExperience.findById(id);
 
-        if (!result.rows.length) {
+        if (!workExperience) {
             return res.status(404).json({ message: 'Work experience not found' });
         }
 
-        res.json(result.rows[0]);
+        res.json(workExperience);
     } catch (error) {
         res.status(500).json({ message: 'Could not fetch work experience by id' });
     }
@@ -66,11 +64,7 @@ router.post('/', async (req, res) => {
 
         res.status(201).json(savedWorkExperience);
     } catch (error) {
-        console.error("POST ERROR:", error);
-        res.status(500).json({
-            message: 'Could not insert work experience',
-            error: error.message
-        });
+        res.status(500).json({message: 'Could not insert work experience'});
     }
 });
 
@@ -83,27 +77,19 @@ router.put('/:id', async (req, res) => {
     }
 
     const { id } = req.params;
-    const { companyname, jobtitle, location, startdate, enddate, description } = req.body;
-
+    
     try {
-        const result = await client.query(
-            `UPDATE workexperience
-             SET companyname = $1,
-                 jobtitle = $2,
-                 location = $3,
-                 startdate = $4,
-                 enddate = $5,
-                 description = $6
-             WHERE id = $7
-             RETURNING *`,
-            [companyname, jobtitle, location, startdate, enddate, description, id]
+        const updated = await WorkExperience.findByIdAndUpdate(
+            id, 
+            req.body, 
+            { new: true } // Returnerar den uppdaterade posten i svaret
         );
 
-        if (!result.rows.length) {
+        if (!updated) {
             return res.status(404).json({ message: 'Work experience not found' });
         }
 
-        res.json(result.rows[0]);
+        res.json(updated);
     } catch (error) {
         res.status(500).json({ message: 'Could not update work experience' });
     }
@@ -114,11 +100,9 @@ router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const result = await client.query(
-            'DELETE FROM workexperience WHERE id = $1 RETURNING *', [id]
-        );
+        const deleted = await WorkExperience.findByIdAndDelete(id);
 
-        if (!result.rows.length) {
+        if (!deleted) {
             return res.status(404).json({ message: 'Work experience not found' });
         }
 
