@@ -59,14 +59,16 @@ GET /workexperience/:id
 POST /workexperience
 
 Body (JSON):
+```json
 {
   "companyname": "Jobba AB",
   "jobtitle": "Utvecklare",
   "location": "Sundsvall",
   "startdate": "2022-01-01",
-  "enddate": 2025-01-01,
+  "enddate": "2025-01-01",
   "description": "Bränner hjärnceller genom att sitta framför en skärm flera timmar i ett streck."
 }
+```
 
 ### Uppdatera post
 PUT /workexperience/:id
@@ -101,11 +103,21 @@ git clone <repo-url>
 npm install
 
 3. Skapa en `.env`-fil:
+```
 PORT=3000
 MONGODB_URI=din_connection_string
+```
 
 4. Starta servern
+För utveckling (rekommenderas):
+```
 npm run dev
+```
+
+För produktion:
+```
+npm start
+```
 
 ---
 
