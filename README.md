@@ -35,8 +35,9 @@ Projektet är byggt med:
 
 ## 📦 Datamodell
 
-Varje arbetserfarenhet innehåller följande fält:
+Varje arbetserfarenhet lagras som ett dokument i MongoDB och innehåller följande fält:
 
+- _id (ObjectId) – unikt id genererat av MongoDB
 - companyname (string)
 - jobtitle (string)
 - location (string)
@@ -47,18 +48,30 @@ Varje arbetserfarenhet innehåller följande fält:
 
 ---
 
+## 🔁 Funktionalitet (CRUD)
+
+Webbtjänsten stödjer följande operationer:
+
+- GET – Hämtar poster
+- POST – Skapa ny post
+- PUT – Uppdatera post
+- DELETE – Ta bort post
+
+Alla svar returneras i JSON-format.
+
+---
+
 ## 🔗 API-endpoints
+| Metod  | Endpoint                  | Beskrivning                  |
+|--------|--------------------------|------------------------------|
+| GET    | /workexperience          | Hämtar alla poster           |
+| GET    | /workexperience/:id      | Hämtar en specifik post      |
+| POST   | /workexperience          | Skapar en ny post            |
+| PUT    | /workexperience/:id      | Uppdaterar en post           |
+| DELETE | /workexperience/:id      | Raderar en post              |
 
-### Hämta alla poster
-GET /workexperience
+### Exempel på request body
 
-### Hämta en specifik post
-GET /workexperience/:id
-
-### Skapa ny post
-POST /workexperience
-
-Body (JSON):
 ```json
 {
   "companyname": "Jobba AB",
@@ -69,13 +82,6 @@ Body (JSON):
   "description": "Bränner hjärnceller genom att sitta framför en skärm flera timmar i ett streck."
 }
 ```
-
-### Uppdatera post
-PUT /workexperience/:id
-
-### Radera post
-DELETE /workexperience/:id
-
 ---
 
 ## ⚠️ Validering
@@ -97,25 +103,30 @@ Webbtjänsten är publicerad via Render och använder MongoDB Atlas som databas.
 ## 📁 Installation (lokalt)
 
 1. Klona repositoryt
-git clone <repo-url>
+```bash
+git clone https://github.com/fredrikastjernlof/Lab3_WebbtjanstNoSQL.git
+```
 
-2. Installera beroenden
+2. Installera dependencies
+```bash
 npm install
+```
 
 3. Skapa en `.env`-fil:
-```
+```env
 PORT=3000
 MONGODB_URI=din_connection_string
 ```
 
 4. Starta servern
+
 För utveckling (rekommenderas):
-```
+```bash
 npm run dev
 ```
 
 För produktion:
-```
+```bash
 npm start
 ```
 
